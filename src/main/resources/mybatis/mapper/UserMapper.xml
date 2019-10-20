@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yafeng.genericbackend.mapper.UserMapper">
+
+    <select id="countAll" resultType="java.lang.Integer">
+        SELECT
+            COUNT(0)
+        FROM user
+    </select>
+
+    <select id="selectAll" resultType="User">
+        SELECT
+            *
+        FROM user
+    </select>
+
+    <select id="selectList" resultType="User">
+        SELECT 
+            *
+        FROM user
+        <where>
+            <if test="email != null and email != ''">
+                AND email = #{email}
+            </if>
+            <if test="username != null and email != ''">
+                AND username = #{username}
+            </if>
+            <if test="sex !=null">
+                AND sex = #{sex}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByEmail" parameterType="String" resultType="User">
+        SELECT
+            *
+        FROM user
+        WHERE email = #{email}
+    </select>
+
+    <insert id="insert" parameterType="User" keyProperty="id">
+        INSERT INTO
+        user(
+            username,
+            email,
+            password,
+            salt
+        )
+        VALUES(
+            #{username},
+            #{email},
+            #{password},
+            #{salt}
+        )
+    </insert>
+
+    <update id="update" parameterType="User">
+        UPDATE user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="salt != null and salt !=''">
+                salt = #{salt},
+            </if>
+            <if test="avatar != null and avatar !=''">
+                avatar = #{avatar},
+            </if>
+            <if test="state != null and state !=''">
+                state = #{state},
+            </if>
+            <if test="sex != null and sex !=''">
+                sex = #{sex},
+            </if>
+            <if test="signature != null and signature !=''">
+                signature = #{signature}
+            </if>
+        </set>
+        WHERE email = #{email}
+    </update>
+
+    <delete id="delete" parameterType="User">
+        DELETE FROM
+            user
+        WHERE email = #{email}
+    </delete>
+
+</mapper>
